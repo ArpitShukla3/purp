@@ -1,0 +1,76 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.pytest_cache/
+.pyre/
+.pytype/
+coverage.xml
+.coverage
+.coverage.*
+htmlcov/
+*.cache
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# Logs and runtime files
+*.log
+logs/
+*.sqlite3
+*.db
+*.db-journal
+
+# Docker / environment files
+.env
+.env.*
+docker-compose.override.yml
+docker-compose.*.local.yml
+*.pem
+*.key
+*.crt
+
+# Editor / IDE files
+.vscode/
+.idea/
+*.iml
+*.sublime-project
+*.sublime-workspace
+
+# Node / frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+npm-debug.log
+pnpm-debug.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local/generated data
+detection/output/
+**/output/
+CCTV Footage*/
+
+# Test artifacts
+.coverage
+pytestdebug.log
+

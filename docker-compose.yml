@@ -1,0 +1,68 @@
+# ─────────────────────────────────────────────────────────────────────
+# Store Intelligence — Docker Compose
+# ─────────────────────────────────────────────────────────────────────
+# Launch everything:  docker compose up --build
+# ─────────────────────────────────────────────────────────────────────
+
+services:
+  # ── PostgreSQL ────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: store_intel
+      POSTGRES_PASSWORD: store_intel
+      POSTGRES_DB: store_intel
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/init.sql:/docker-entrypoint-initdb.d/01_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U store_intel"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ── API Service (FastAPI) ─────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: "postgresql+asyncpg://store_intel:store_intel@postgres:5432/store_intel"
+      ENVIRONMENT: local
+      LOG_LEVEL: INFO
+      DEBUG: "false"
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ── Detection Service ─────────────────────────────────────────────
+  detection:
+    build:
+      context: .
+      dockerfile: detection/Dockerfile
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: "postgresql+asyncpg://store_intel:store_intel@postgres:5432/store_intel"
+      ENVIRONMENT: local
+      LOG_LEVEL: INFO
+      DEBUG: "false"
+    volumes:
+      - ./detection/output:/app/detection/output
+      - ./detection/store_layout.json:/app/detection/store_layout.json:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdata:

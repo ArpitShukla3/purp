@@ -1,0 +1,65 @@
+{
+  "_comment": "Store zone polygons for the Purplle store. Coordinates are in pixels for each camera's 1920x1080 frame. Zone polygons were derived from manual inspection of CCTV frame captures.",
+
+  "store_id": "purplle-001",
+  "frame_width": 1920,
+  "frame_height": 1080,
+
+  "zones": [
+    {
+      "zone_id": "entrance",
+      "name": "Store Entrance",
+      "camera_id": "cam3",
+      "type": "entrance",
+      "dwell_threshold_ms": 5000,
+      "polygon": [
+        [550, 0], [900, 0], [900, 1080], [550, 1080]
+      ],
+      "_note": "The door-frame / doormat area between inside and outside. Tracks appearing here are entering or exiting."
+    },
+    {
+      "zone_id": "display_left",
+      "name": "Left Display Wall",
+      "camera_id": "cam3",
+      "type": "display",
+      "dwell_threshold_ms": 15000,
+      "polygon": [
+        [0, 0], [350, 0], [350, 600], [0, 600]
+      ],
+      "_note": "Product shelves / display on the left wall visible in CAM 3. Contains the Purplle branding sign and product racks."
+    },
+    {
+      "zone_id": "aisle_center",
+      "name": "Center Aisle",
+      "camera_id": "cam3",
+      "type": "aisle",
+      "dwell_threshold_ms": 10000,
+      "polygon": [
+        [350, 0], [550, 0], [550, 1080], [350, 1080]
+      ],
+      "_note": "Central walking area between the left display wall and the entrance zone."
+    },
+    {
+      "zone_id": "checkout_approx",
+      "name": "Checkout Area (approx)",
+      "camera_id": "cam3",
+      "type": "checkout",
+      "dwell_threshold_ms": 20000,
+      "polygon": [
+        [0, 600], [350, 600], [350, 1080], [0, 1080]
+      ],
+      "_note": "Approximate checkout / billing area based on CAM 3 partial visibility. The actual counter is better visible in CAM 5. Limitation: queue tracking from this zone is approximate."
+    },
+    {
+      "zone_id": "outside",
+      "name": "Outside / Mall Corridor",
+      "camera_id": "cam3",
+      "type": "outside",
+      "dwell_threshold_ms": 0,
+      "polygon": [
+        [900, 0], [1920, 0], [1920, 1080], [900, 1080]
+      ],
+      "_note": "Everything to the right of the door frame — outside the store in the mall corridor."
+    }
+  ]
+}

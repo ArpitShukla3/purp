@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Intelligence — Live Dashboard</title>
+    <meta name="description" content="Real-time retail analytics dashboard powered by CCTV intelligence">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Background animated gradient -->
+    <div class="bg-gradient"></div>
+    <div class="bg-noise"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-left">
+            <div class="logo-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </div>
+            <div>
+                <h1 class="header-title">Store Intelligence</h1>
+                <p class="header-subtitle" id="store-label">purplle-001</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="status-indicator" id="status-dot"></div>
+            <span class="status-text" id="status-text">Connecting…</span>
+            <span class="header-clock" id="clock"></span>
+        </div>
+    </header>
+
+    <!-- Main Grid -->
+    <main class="dashboard">
+
+        <!-- Row 1: KPI Cards -->
+        <section class="kpi-row">
+            <div class="kpi-card" id="kpi-visitors">
+                <div class="kpi-icon">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="kpi-value" data-counter="unique_visitors">—</div>
+                <div class="kpi-label">Visitors</div>
+                <div class="kpi-sub" id="kpi-customers-sub"></div>
+            </div>
+            <div class="kpi-card" id="kpi-inside">
+                <div class="kpi-icon accent-green">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <div class="kpi-value" data-counter="current_inside">—</div>
+                <div class="kpi-label">Inside Now</div>
+                <div class="kpi-sub" id="kpi-inside-sub"></div>
+            </div>
+            <div class="kpi-card" id="kpi-conversion">
+                <div class="kpi-icon accent-purple">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </div>
+                <div class="kpi-value" data-counter="conversion_pct">—</div>
+                <div class="kpi-label">Conversion</div>
+                <div class="kpi-sub" id="kpi-conv-sub"></div>
+            </div>
+            <div class="kpi-card" id="kpi-queue">
+                <div class="kpi-icon accent-orange">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                </div>
+                <div class="kpi-value" data-counter="queue_depth">—</div>
+                <div class="kpi-label">Queue Depth</div>
+                <div class="kpi-sub" id="kpi-queue-sub"></div>
+            </div>
+            <div class="kpi-card" id="kpi-events">
+                <div class="kpi-icon accent-cyan">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <div class="kpi-value" data-counter="total_events">—</div>
+                <div class="kpi-label">Total Events</div>
+                <div class="kpi-sub" id="kpi-events-sub"></div>
+            </div>
+        </section>
+
+        <!-- Row 2: Funnel + Heatmap -->
+        <section class="charts-row">
+            <div class="card funnel-card">
+                <div class="card-header">
+                    <h2 class="card-title">Conversion Funnel</h2>
+                    <span class="card-badge" id="funnel-conv-badge">—</span>
+                </div>
+                <div class="funnel-container" id="funnel-container">
+                    <div class="funnel-loading">Loading funnel data…</div>
+                </div>
+            </div>
+
+            <div class="card heatmap-card">
+                <div class="card-header">
+                    <h2 class="card-title">Zone Activity Heatmap</h2>
+                    <span class="card-badge" id="heatmap-badge">5m buckets</span>
+                </div>
+                <div class="heatmap-container" id="heatmap-container">
+                    <div class="funnel-loading">Loading heatmap…</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Row 3: Active Visitors + Anomalies + Dwell -->
+        <section class="bottom-row">
+            <div class="card visitors-card">
+                <div class="card-header">
+                    <h2 class="card-title">Active Visitors</h2>
+                    <span class="card-badge" id="active-badge">0</span>
+                </div>
+                <div class="visitors-list" id="visitors-list">
+                    <div class="funnel-loading">Loading…</div>
+                </div>
+            </div>
+
+            <div class="card anomalies-card">
+                <div class="card-header">
+                    <h2 class="card-title">Anomaly Alerts</h2>
+                    <span class="card-badge anomaly-count" id="anomaly-badge">0</span>
+                </div>
+                <div class="anomalies-list" id="anomalies-list">
+                    <div class="funnel-loading">Scanning…</div>
+                </div>
+            </div>
+
+            <div class="card dwell-card">
+                <div class="card-header">
+                    <h2 class="card-title">Zone Dwell Times</h2>
+                </div>
+                <div class="dwell-container" id="dwell-container">
+                    <div class="funnel-loading">Loading…</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Row 4: Event Breakdown -->
+        <section class="events-row">
+            <div class="card events-card">
+                <div class="card-header">
+                    <h2 class="card-title">Event Stream Breakdown</h2>
+                </div>
+                <div class="events-grid" id="events-grid"></div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <span>Store Intelligence v0.3.0 — Privacy-first CCTV Analytics</span>
+        <span id="last-update"></span>
+    </footer>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

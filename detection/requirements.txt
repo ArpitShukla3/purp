@@ -1,0 +1,10 @@
+pydantic-settings>=2.2,<3
+structlog>=24.1,<25
+aiohttp>=3.9,<4
+sqlalchemy[asyncio]>=2.0,<3
+asyncpg>=0.29,<1
+ultralytics>=8.2
+opencv-python-headless>=4.9
+numpy>=1.24
+lapx>=0.5
+pydantic>=2.0,<3

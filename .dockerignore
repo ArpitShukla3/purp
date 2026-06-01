@@ -1,0 +1,14 @@
+# Ignore tool configs and non-essential files
+.codegraph/
+.claude/
+.cursor/
+.gemini/
+.git/
+__pycache__/
+*.pyc
+.env
+.env.example
+*.md
+docs/
+tests/
+CCTV*
